@@ -136,6 +136,8 @@ def replace_names_abbrevs(team_data: pd.DataFrame) -> pd.DataFrame:
 
 
 def convert_duplicates(skater_data: pd.DataFrame) -> pd.DataFrame:
+    skater_data = skater_data.copy()
+
     # identify all multi-team players (in most cases, players who were traded during a season)
     # by filtering dataframe to entries with "TOT" as the team
     traded_players = skater_data[skater_data["Tm"] == "TOT"]
