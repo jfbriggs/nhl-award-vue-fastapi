@@ -7,7 +7,7 @@ def hello_world():
 
 
 # If separate folders of individual CSV files need to be aggregated
-def _merge_csv(source: str):
+def _merge_csv(source: str) -> None:
     data_folders = ["skater_stats", "season_standings", "norris_voting"]
     seasons = [filename.rstrip('.csv')[-8:] for filename in os.listdir(f"{source}/skater_stats")]
 
@@ -23,4 +23,19 @@ def _merge_csv(source: str):
                 dataframes[folder] = pd.concat([dataframes[folder], df]).reset_index(drop=True)
 
     for df_name in dataframes:
-        dataframes[df_name].to_csv(os.path.join(source, f"{df_name}.csv"))
+        dataframes[df_name].to_csv(os.path.join(source, f"{df_name}.csv"), index=False)
+
+
+def read_to_dfs(source: str) -> dict:
+    csv_files = [name for name in os.listdir(source) if ".csv" in name]
+
+    dfs = {}
+
+    for filename in csv_files:
+        df = pd.read_csv(os.path.join(source, filename))
+        dfs[filename.rstrip('.csv')] = df
+
+    return dfs
+
+
+read_to_dfs("../past_data")
