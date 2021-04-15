@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 import uvicorn
+from scripts.preprocess import hello_world
 
 app = FastAPI()
 
 
 @app.get('/')
 def hello():
-    return "Yeah, NHL Norris Trophy predictions!"
+    return hello_world()
 
 
 @app.get('/predict')
