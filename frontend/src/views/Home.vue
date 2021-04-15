@@ -1,18 +1,42 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <PlayerCardList :data="predictionResults" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import PlayerCardList from '@/components/PlayerCardList'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    PlayerCardList
+  },
+  data() {
+    return {
+      predictionResults: []
+    }
+  },
+  methods: {
+    async getPredictions() {
+      console.log("Gathering data...")
+      const res = await fetch('http://localhost:8500/predict')
+      const data = await res.json()
+      const results = await data.results
+
+      let playerList = []
+
+      for (const rank in results) {
+        playerList.push({rank: rank, name: results[rank].name, team: results[rank].team, pointPct: results[rank].predicted_point_pct})
+      }
+
+      return playerList
+
+    }
+  },
+  async created() {
+    this.predictionResults = await this.getPredictions()
   }
 }
 </script>
