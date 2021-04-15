@@ -7,6 +7,7 @@ def hello_world():
     return "Hello world!"
 
 
+# Get list of all seasons included in past (non-current season's) data
 def get_seasons(source: str) -> List[str]:
     seasons = None
 
@@ -85,6 +86,7 @@ def fix_team_names(team_data: pd.DataFrame, seasons: List[str]) -> pd.DataFrame:
     return team_data
 
 
+# Replace full team names with team abbreviations
 def replace_names_abbrevs(team_data: pd.DataFrame) -> pd.DataFrame:
     team_abbrevs = {
         "Anaheim Ducks": "ANA",
@@ -135,7 +137,8 @@ def replace_names_abbrevs(team_data: pd.DataFrame) -> pd.DataFrame:
     return team_data
 
 
-def convert_duplicates(skater_data: pd.DataFrame) -> pd.DataFrame:
+# Eliminates multiple entries for players (i.e. due to being traded mid-season
+def convert_multiples(skater_data: pd.DataFrame) -> pd.DataFrame:
     skater_data = skater_data.copy()
 
     # identify all multi-team players (in most cases, players who were traded during a season)
@@ -164,6 +167,7 @@ def convert_duplicates(skater_data: pd.DataFrame) -> pd.DataFrame:
     return skater_data
 
 
+# Run dataframes through all pre-merge preprocessing steps
 def pre_merge_preprocess(dfs: Dict[str, pd.DataFrame], source: str) -> Dict[str, pd.DataFrame]:
     seasons = get_seasons(source)
 
@@ -182,7 +186,7 @@ def pre_merge_preprocess(dfs: Dict[str, pd.DataFrame], source: str) -> Dict[str,
     dfs["skater_stats"] = dfs["skater_stats"][dfs["skater_stats"]["Pos"] == "D"].copy().sort_values(
         by=["season", "Player", "GP"]).reset_index(drop=True)
 
-    # deal with duplicates (traded players)
-    dfs["skater_stats"] = convert_duplicates(dfs["skater_stats"].copy())
+    # deal with multiples (traded players)
+    dfs["skater_stats"] = convert_multiples(dfs["skater_stats"].copy())
 
     return dfs
