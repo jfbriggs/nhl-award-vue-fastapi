@@ -49,7 +49,7 @@ def compile_output(results: dict) -> dict:
     for rank in results:
         team_abbrev = results[rank]["team"]
 
-        # access NHL roster data, find player's ID and team-dashed string, form headshot & logo URLs, and add to dict
+        # access NHL roster data, find player's ID and team-dashed string, form headshot, logo URLs, & NHL.com URL and add to dict
         team_roster = nhl_data[team_abbrev]
         for player_id in team_roster:
             if team_roster[player_id]["name"] == results[rank]["name"]:
@@ -58,6 +58,10 @@ def compile_output(results: dict) -> dict:
 
                 logo_url = f"https://cdn.usteamcolors.com/images/nhl/{team_roster[player_id]['team_dashed']}.svg"
                 results[rank]["team_logo_url"] = logo_url
+
+                # create URL for player's NHL.com page
+                name_dashed = team_roster[player_id]["name"].lower().replace(" ", "-")
+                results[rank]["nhl_page"] = f"https://www.nhl.com/player/{name_dashed}-{player_id}"
 
     return results
 
