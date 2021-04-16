@@ -47,7 +47,8 @@ def _merge_csv(source: str) -> None:
 # Convert aggregated CSVs to separate dataframes
 def read_to_dfs(source: str) -> dict:
     past_csv_files = [name for name in os.listdir(source) if ".csv" in name and "current" not in name]
-    current_csv_Files = [name for name in os.listdir(source) if ".csv" in name and "current" in name]
+    current_csv_files = [name for name in os.listdir(source) if (".csv" in name) and ("current" in name)]
+    print(current_csv_files)
 
     dataframes = {}
 
@@ -55,8 +56,18 @@ def read_to_dfs(source: str) -> dict:
     for filename in past_csv_files:
         df = pd.read_csv(os.path.join(source, filename))
         name = filename.split('.')[0]
+        print(f"Past file: {name}")
         dataframes[name] = df
 
+    # read current data into DFs and concat
+    for filename in current_csv_files:
+        df = pd.read_csv(os.path.join(source, filename))
+        name = filename.split('.')[0].rstrip('_current')
+        print(f"Current file: {name}")
+        dataframes[name] = pd.concat([dataframes[name], df])
+
+    print("Imported past and current data into DFs.")
+    print(dataframes["skater_stats"].tail())
     return dataframes
 
 
@@ -390,6 +401,9 @@ def post_merge_preprocess(df: pd.DataFrame) -> Tuple[pd.DataFrame, dict]:
     data = post_merge_pipe(df)
     data, encodings = encode_categorical(data)
     data = filter_data(data)
+
+    print("Last entry season:")
+    print(data.tail(1)["season"])
 
     return data, encodings
 
