@@ -60,3 +60,41 @@ def get_current_data(year: str) -> None:
     skater_df.to_csv('../past_data/skater_stats_current.csv', index_label=False)
 
     print("Current season's data updated.")
+
+
+# Get player IDs, team abbrevs, and jersey numbers from NHL Stats API
+def get_nhl_players():
+    teams_players = requests.get("https://statsapi.web.nhl.com/api/v1/teams?expand=team.roster").json()["teams"]
+    # players = {}
+
+    teams = {}
+
+    for team in teams_players:
+        roster = {}
+
+        for player in team["roster"]["roster"]:
+            if player["position"]["code"] == "D":
+                roster[player["person"]["id"]] = {
+                    "name": player["person"]["fullName"],
+                    "team_dashed": '-'.join(team["name"].lower().replace("é", "e").split()),
+                    "jersey_number": player.get("jerseyNumber")
+                }
+
+        teams[team["abbreviation"]] = roster
+
+    print(teams["EDM"])
+
+    return teams
+
+
+    # for team in teams_players:
+    #     for player in team["roster"]["roster"]:
+    #         if player["position"]["code"] == "D":
+    #             players[player["person"]["fullName"]] = {
+    #                 "nhl_id": player["person"]["id"],
+    #                 "team": team["abbreviation"],
+    #                 "team_dashed": '-'.join(team["name"].lower().replace("é", "e").split()),
+    #                 "jersey_number": player.get("jerseyNumber")
+    #             }
+    #
+    # return players
