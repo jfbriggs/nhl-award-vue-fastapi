@@ -46,9 +46,10 @@ def _merge_csv(source: str) -> None:
 
 # Convert aggregated CSVs to separate dataframes
 def read_to_dfs(source: str) -> dict:
+    print("Importing CSV data into dataframes...")
+
     past_csv_files = [name for name in os.listdir(source) if ".csv" in name and "current" not in name]
     current_csv_files = [name for name in os.listdir(source) if (".csv" in name) and ("current" in name)]
-    print(current_csv_files)
 
     dataframes = {}
 
@@ -56,18 +57,14 @@ def read_to_dfs(source: str) -> dict:
     for filename in past_csv_files:
         df = pd.read_csv(os.path.join(source, filename))
         name = filename.split('.')[0]
-        print(f"Past file: {name}")
         dataframes[name] = df
 
     # read current data into DFs and concat
     for filename in current_csv_files:
         df = pd.read_csv(os.path.join(source, filename))
         name = filename.split('.')[0].rstrip('_current')
-        print(f"Current file: {name}")
         dataframes[name] = pd.concat([dataframes[name], df])
 
-    print("Imported past and current data into DFs.")
-    print(dataframes["skater_stats"].tail())
     return dataframes
 
 
@@ -188,6 +185,8 @@ def convert_multiples(skater_data: pd.DataFrame) -> pd.DataFrame:
 
 # Run dataframes through all pre-merge preprocessing steps
 def pre_merge_preprocess(dfs: Dict[str, pd.DataFrame]) -> Dict[str, pd.DataFrame]:
+    print("Performing pre-merge preprocessing...")
+
     # remove asterisks from team names
     dfs["season_standings"]["Team"] = dfs["season_standings"]["Team"].str.replace("*", "")
     dfs["skater_stats"]["Player"] = dfs["skater_stats"]["Player"].str.replace("*", "")
@@ -211,6 +210,8 @@ def pre_merge_preprocess(dfs: Dict[str, pd.DataFrame]) -> Dict[str, pd.DataFrame
 
 # Merge dataframes into one, dropping duplicate columns along the way
 def merge_dataframes(dfs: Dict[str, pd.DataFrame]) -> pd.DataFrame:
+    print("Merging dataframes...")
+
     players_teams_data = dfs["skater_stats"].merge(dfs["season_standings"], how="left", left_on=["season", "Tm"],
                                                    right_on=["season", "Team"], suffixes=("_player", "_team"))
     voting_data = dfs["norris_voting"].drop(["Age", "Tm", "Pos", "G", "A", "PTS", "PLUSMINUS", "PS"], axis=1)
@@ -370,14 +371,14 @@ def rescale_continuous(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # Encode (convert to numeric) team column and output encodings to make available for other functionality
-def encode_categorical(df: pd.DataFrame) -> Tuple[pd.DataFrame, dict]:
+def encode_categorical(df: pd.DataFrame) -> pd.DataFrame:
     # encode team column -> convert to integers for use with tree-based models
     encoder = LabelEncoder()
-    df["team"] = encoder.fit_transform(df["team"])
+    df["team_encoded"] = encoder.fit_transform(df["team"])
 
     team_encodings = {i: val for i, val in enumerate(encoder.classes_)}
 
-    return df, team_encodings
+    return df
 
 
 # Filter data to subset that will be used for training model
@@ -394,18 +395,14 @@ def filter_data(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # Apply all post-merge preprocessing steps, using make_pipeline as applicable
-def post_merge_preprocess(df: pd.DataFrame) -> Tuple[pd.DataFrame, dict]:
+def post_merge_preprocess(df: pd.DataFrame) -> pd.DataFrame:
+    print("Performing post-merge preprocessing...")
 
-    post_merge_pipe = make_pipeline([drop_unused_cols, adjust_remaining_cols, fix_missing_values, generate_features, rescale_continuous])
+    post_merge_pipe = make_pipeline([drop_unused_cols, adjust_remaining_cols, fix_missing_values, generate_features, rescale_continuous, encode_categorical, filter_data])
 
     data = post_merge_pipe(df)
-    data, encodings = encode_categorical(data)
-    data = filter_data(data)
 
-    print("Last entry season:")
-    print(data.tail(1)["season"])
-
-    return data, encodings
+    return data
 
 
 # Create a pipeline of functions
@@ -421,8 +418,18 @@ def make_pipeline(funcs: List[callable]) -> callable:
 
 
 # Create pipeline of data conversion and preprocessing/merge steps up to multiple parameter funcs, output final data and encodings
-def merge_process(source: str) -> Tuple[pd.DataFrame, dict]:
+def merge_process(source: str) -> pd.DataFrame:
     process_pipe = make_pipeline([read_to_dfs, pre_merge_preprocess, merge_dataframes, post_merge_preprocess])
-    data, encodings = process_pipe(source)
+    data = process_pipe(source)
 
-    return data, encodings
+    print("Data preprocessed and ready for use.")
+
+    return data
+
+
+def split_data(data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    latest_season = data.tail(1)["season"]
+    train_data = data[data["season"] != latest_season].copy()
+    predict_data = data[data["season"] == latest_season].copy()
+
+    return train_data, predict_data
