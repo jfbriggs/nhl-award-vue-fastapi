@@ -7,10 +7,6 @@ from typing import List, Dict, Tuple
 from sklearn.preprocessing import minmax_scale, LabelEncoder
 
 
-def hello_world():
-    return "Hello world!"
-
-
 # Get list of all seasons included in past (non-current season's) data
 def get_seasons(source: str) -> List[str]:
     seasons = None
@@ -376,8 +372,6 @@ def encode_categorical(df: pd.DataFrame) -> pd.DataFrame:
     encoder = LabelEncoder()
     df["team_encoded"] = encoder.fit_transform(df["team"])
 
-    team_encodings = {i: val for i, val in enumerate(encoder.classes_)}
-
     return df
 
 
@@ -389,7 +383,9 @@ def filter_data(df: pd.DataFrame) -> pd.DataFrame:
     filtered_data = df.loc[toi_idx:].copy()
 
     # remove columns with null values left
-    filtered_data = filtered_data.dropna(axis=1)
+    cols_with_nulls = filtered_data.columns[filtered_data.isna().any()].tolist()
+    cols_to_drop = [col for col in cols_with_nulls if col != "norris_point_pct"]
+    filtered_data = filtered_data.drop(cols_to_drop, axis=1)
 
     return filtered_data
 
@@ -428,7 +424,8 @@ def merge_process(source: str) -> pd.DataFrame:
 
 
 def split_data(data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    latest_season = data.tail(1)["season"]
+    latest_season = data.iloc[-1]["season"]
+
     train_data = data[data["season"] != latest_season].copy()
     predict_data = data[data["season"] == latest_season].copy()
 

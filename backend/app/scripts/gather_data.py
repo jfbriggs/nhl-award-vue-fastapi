@@ -4,7 +4,7 @@ import pandas as pd
 import os
 
 
-def get_standings(year: str) -> pd.DataFrame:
+def get_standings_data(year: str) -> pd.DataFrame:
     nhl_standings_html = requests.get(f"https://www.hockey-reference.com/leagues/NHL_{year}_standings.html").text
 
     nhl_standings_soup = BeautifulSoup(nhl_standings_html, "html.parser")
@@ -24,12 +24,10 @@ def get_standings(year: str) -> pd.DataFrame:
     team_data_df = pd.DataFrame(team_data, columns=col_headers)
     team_data_df["season"] = int(str(int(year) - 1) + year)
 
-    team_data_df.to_csv('../../past_data/season_standings_current.csv', index_label=False)
-
     return team_data_df
 
 
-def get_skater_data(year: str) -> None:
+def get_skater_data(year: str) -> pd.DataFrame:
     skater_stats_html = requests.get(f"https://www.hockey-reference.com/leagues/NHL_{year}_skaters.html").text
 
     skater_stats_soup = BeautifulSoup(skater_stats_html, "html.parser")
@@ -51,4 +49,14 @@ def get_skater_data(year: str) -> None:
     skater_data_df = pd.DataFrame(skater_data, columns=col_headers)
     skater_data_df["season"] = int(str(int(year) - 1) + year)
 
-    skater_data_df.to_csv('../../past_data/skater_stats_current.csv', index_label=False)
+    return skater_data_df
+
+
+def get_current_data(year: str) -> None:
+    standings_df = get_standings_data(year)
+    skater_df = get_skater_data(year)
+
+    standings_df.to_csv('../past_data/season_standings_current.csv', index_label=False)
+    skater_df.to_csv('../past_data/skater_stats_current.csv', index_label=False)
+
+    print("Current season's data updated.")
