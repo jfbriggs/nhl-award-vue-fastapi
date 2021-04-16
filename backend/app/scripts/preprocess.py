@@ -55,6 +55,10 @@ def read_to_dfs(source: str) -> dict:
         name = filename.split('.')[0]
         dataframes[name] = df
 
+    print(dataframes["season_standings"].columns)
+    print(dataframes["skater_stats"].info())
+    print(dataframes["skater_stats"].columns)
+
     return dataframes
 
 

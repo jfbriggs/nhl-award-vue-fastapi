@@ -19,7 +19,6 @@ async def process_data():
     return {"encodings": encodings}
 
 
-
 @app.get('/predict')
 async def get_predictions():
     return {"result": "OMG Predictions!"}
