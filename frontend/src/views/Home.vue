@@ -28,7 +28,15 @@ export default {
       let playerList = []
 
       for (const rank in results) {
-        playerList.push({rank: rank, name: results[rank].name, team: results[rank].team, pointPct: results[rank].predicted_point_pct})
+        playerList.push({
+          rank: rank,
+          name: results[rank].name,
+          team: results[rank].team,
+          pointPct: results[rank].predicted_point_pct,
+          teamLogo: results[rank].team_logo_url,
+          headshot: results[rank].headshot_url,
+          nhlPage: results[rank].nhl_page
+        })
       }
 
       return playerList
