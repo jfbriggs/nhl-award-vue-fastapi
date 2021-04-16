@@ -11,14 +11,14 @@ class NorrisModel:
 
     def fit(self, data: pd.DataFrame) -> None:
         # separate features from target variable in train data
-        X_train, y_train = data.drop(["norris_point_pct", "name", "season"], axis=1), data["norris_point_pct"]
+        X_train, y_train = data.drop(["norris_point_pct", "name", "team", "season"], axis=1), data["norris_point_pct"]
 
         # fit instantiated estimator on features and target in train data
         self.estimator.fit(X_train, y_train)
 
     def predict(self, data: pd.DataFrame) -> List[dict]:
         # ensure data does not have target variable or name/season columns included
-        data_filtered = data.drop(["norris_point_pct", "name", "season"], axis=1)
+        data_filtered = data.drop(["norris_point_pct", "name", "team", "season"], axis=1)
 
         predictions = self.estimator.predict(data_filtered)
 
