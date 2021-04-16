@@ -46,18 +46,16 @@ def _merge_csv(source: str) -> None:
 
 # Convert aggregated CSVs to separate dataframes
 def read_to_dfs(source: str) -> dict:
-    csv_files = [name for name in os.listdir(source) if ".csv" in name]
+    past_csv_files = [name for name in os.listdir(source) if ".csv" in name and "current" not in name]
+    current_csv_Files = [name for name in os.listdir(source) if ".csv" in name and "current" in name]
 
     dataframes = {}
 
-    for filename in csv_files:
+    # read past data into DFs
+    for filename in past_csv_files:
         df = pd.read_csv(os.path.join(source, filename))
         name = filename.split('.')[0]
         dataframes[name] = df
-
-    print(dataframes["season_standings"].columns)
-    print(dataframes["skater_stats"].info())
-    print(dataframes["skater_stats"].columns)
 
     return dataframes
 
