@@ -82,19 +82,4 @@ def get_nhl_players():
 
         teams[team["abbreviation"]] = roster
 
-    print(teams["EDM"])
-
     return teams
-
-
-    # for team in teams_players:
-    #     for player in team["roster"]["roster"]:
-    #         if player["position"]["code"] == "D":
-    #             players[player["person"]["fullName"]] = {
-    #                 "nhl_id": player["person"]["id"],
-    #                 "team": team["abbreviation"],
-    #                 "team_dashed": '-'.join(team["name"].lower().replace("é", "e").split()),
-    #                 "jersey_number": player.get("jerseyNumber")
-    #             }
-    #
-    # return players
