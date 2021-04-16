@@ -1,17 +1,27 @@
 from fastapi import FastAPI
 import uvicorn
-from scripts.preprocess import hello_world
+from scripts.preprocess import hello_world, merge_process
 
 app = FastAPI()
 
 
 @app.get('/')
-def hello():
+async def hello():
     return hello_world()
 
 
+@app.get('/process')
+async def process_data():
+    src = '../past_data'
+    data, encodings = merge_process(src)
+
+    print("Data processed.")
+    return {"encodings": encodings}
+
+
+
 @app.get('/predict')
-def get_predictions():
+async def get_predictions():
     return {"result": "OMG Predictions!"}
 
 
