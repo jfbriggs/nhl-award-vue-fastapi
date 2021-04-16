@@ -264,7 +264,8 @@ def adjust_remaining_cols(df: pd.DataFrame) -> pd.DataFrame:
     abbrev_subs = {
         "PHX": "ARI",  # Phoenix Coyotes became Arizona Coyotes
         "MDA": "ANA",  # Mighty Ducks of Anaheim became Anaheim Ducks
-        "CBH": "CHI"  # Chicago Black Hawks became Chicago Blackhawks
+        "CBH": "CHI",  # Chicago Black Hawks became Chicago Blackhawks
+        "VEG": "VGK"   # Adjust Vegas abbrev to use more commonly used one
     }
 
     # apply substitutions
