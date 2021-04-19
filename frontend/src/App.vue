@@ -1,16 +1,18 @@
 <template>
   <div>
     <!-- Nav bar -->
-    <nav class="navbar navbar-dark bg-dark justify-content-between sticky-top">
-      <router-link to="/" class="navbar-brand">NHL Award Prediction Tracker</router-link>
-      <ul class="nav justify-content-center">
-        <li class="nav-item">
-          <router-link to="/" class="nav-link active" href="#">Home</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/about" class="nav-link" href="#">About</router-link>
-        </li>
-      </ul>
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+      <div class="container-fluid">
+        <router-link to="/" class="navbar-brand px-2">NHL Award Prediction Tracker</router-link>
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <router-link to="/" class="nav-link active" href="#">HOME</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/about" class="nav-link" href="#">ABOUT</router-link>
+          </li>
+        </ul>
+      </div>
     </nav>
 
     <!-- Container for rest of page, router views -->
@@ -33,6 +35,10 @@ export default {
 </script>
 
 <style>
+body {
+  background-color: #f7f7f7;
+}
+
 a {
   color: #9c9c9c
 }

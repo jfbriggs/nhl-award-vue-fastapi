@@ -1,15 +1,7 @@
 <template>
   <div>
-    <div class="container">
-      <div class="card" id="card-list-header">
-        <div class="card-header">
-          <h4 class="mt-1">Norris Trophy</h4>
-        </div>
-        <div class="card-body">
-          <div class="col">If the season were to end today...</div>
-        </div>
-      </div>
-    </div>
+    <AwardHeaderCard awardName="James Norris Memorial Trophy" :dataUpdated="dataUpdated" :loading="loading" />
+    <LoadingCard v-show="loading" />
     <PlayerCardList :data="predictionResults" />
   </div>
 </template>
@@ -17,15 +9,21 @@
 <script>
 // @ is an alias to /src
 import PlayerCardList from '@/components/PlayerCardList'
+import LoadingCard from '@/components/LoadingCard'
+import AwardHeaderCard from '@/components/AwardHeaderCard'
 
 export default {
   name: 'Home',
   components: {
-    PlayerCardList
+    PlayerCardList,
+    LoadingCard, 
+    AwardHeaderCard
   },
   data() {
     return {
-      predictionResults: []
+      predictionResults: [],
+      loading: true,
+      dataUpdated: ""
     }
   },
   methods: {
@@ -34,6 +32,7 @@ export default {
       const res = await fetch('http://localhost:8500/predict')
       const data = await res.json()
       const results = await data.results
+      const updated = await data.updated
 
       let playerList = []
 
@@ -49,6 +48,8 @@ export default {
         })
       }
 
+      this.loading = false
+      this.dataUpdated = updated
       return playerList
 
     }
@@ -58,11 +59,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-#card-list-header {
-  width: 50%;
-  margin: 0 auto 10px auto;
-  text-align: center;
-}
-</style>
