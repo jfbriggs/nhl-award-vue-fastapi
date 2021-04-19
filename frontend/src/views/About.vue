@@ -8,7 +8,16 @@
           <p>These predictions are made using machine learning methods.</p>
           <p>Historical data (starting with the 1979-1980 season) that includes individual player stats, team standings performance, and Norris Trophy voting outcomes; is collected and prepared. Subsequently, a gradient boosting regression model is fit using this data and used to make predictions based on the current season's data in an "if the season were to end today, here is what the predicted outcome would be" manner.</p>
           <p>Voting percentage is calculated as a proportion of total available vote points. Currently: each season, every voter casts 1st through 5th place votes, each of which are worth a certain number of points (i.e. 9 for 1st, 7 for 2nd, 5 for 3rd, 3 for 4th, 1 for 5th). A player's total points is based on the sum of "vote points" they received from all voters, and final award placement is determined based on these totals. For the sake of this model, "vote point percentage" is calculated as the total "vote points" received divded by the total "vote points" available based on all votes cast by all voters.</p>
-          <p>See <a href="https://nbviewer.jupyter.org/github/jfbriggs/nhl_norris_voting/blob/master/NorrisTrophyVoting.ipynb" target="_blank">this original project notebook file</a> for a full breakdown of the machine learning workflow involved in the data acquisition & preprocessing, model evaluation/selection, and prediction processes.</p>
+          <p class="about-card-body">See <a href="https://nbviewer.jupyter.org/github/jfbriggs/nhl_norris_voting/blob/master/NorrisTrophyVoting.ipynb" target="_blank">this original project notebook file</a> for a full breakdown of the machine learning workflow involved in the data acquisition & preprocessing, model evaluation/selection, and prediction processes.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="about-title">Other Awards</span>
+      </div>
+      <div class="card-body">
+          <p class="about-card-body">Predictions for other awards coming soon!</p>
       </div>
     </div>
   </div>
@@ -21,5 +30,13 @@ a {
 
 .about-title {
   margin-left: 5px;
+}
+
+.card:not(:first-child) {
+    margin-top: 8px;
+}
+
+.about-card-body {
+  margin: 0;
 }
 </style>

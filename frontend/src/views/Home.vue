@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div class="container">
+      <div class="card" id="card-list-header">
+        <div class="card-header">
+          <h4 class="mt-1">Norris Trophy</h4>
+        </div>
+        <div class="card-body">
+          <div class="col">If the season were to end today...</div>
+        </div>
+      </div>
+    </div>
     <PlayerCardList :data="predictionResults" />
   </div>
 </template>
@@ -48,3 +58,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#card-list-header {
+  width: 50%;
+  margin: 0 auto 10px auto;
+  text-align: center;
+}
+</style>

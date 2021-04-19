@@ -2,7 +2,7 @@
   <div>
     <!-- Nav bar -->
     <nav class="navbar navbar-dark bg-dark justify-content-between sticky-top">
-      <router-link to="/" class="navbar-brand">Norris Trophy Prediction Tracker</router-link>
+      <router-link to="/" class="navbar-brand">NHL Award Prediction Tracker</router-link>
       <ul class="nav justify-content-center">
         <li class="nav-item">
           <router-link to="/" class="nav-link active" href="#">Home</router-link>
@@ -23,11 +23,11 @@
 
 <script>
 export default {
-  title: 'Norris Trophy Predictions',
+  title: 'NHL Award Predictions',
   components: {
   },
   created() {
-    document.title = 'Norris Trophy Prediction Tracker'
+    document.title = 'NHL Award Prediction Tracker'
   }
 }
 </script>

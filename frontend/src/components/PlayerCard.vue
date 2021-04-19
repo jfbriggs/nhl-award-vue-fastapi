@@ -3,7 +3,7 @@
         <div class="card-header" @click="bodyShowing = !bodyShowing">
             <div class="media">
                 <span class="badge badge-secondary align-self-center">{{playerData.rank}}</span>
-                <a :href="playerData.nhlPage" target="_blank">
+                <a :href="playerData.nhlPage" target="_blank" data-toggle="tooltip" data-placement="right" :title="'Visit ' + playerData.name + '\'s NHL.com page'">
                     <img class="align-self-center mr-3 headshot rounded-circle" :src="playerData.headshot" alt="Headshot placeholder">
                 </a>
                 <div class="media-body">
@@ -35,6 +35,10 @@ export default {
 <style scoped>
 .card {
     margin-top: 5px;
+}
+
+.card:hover {
+    background-color: #dadada;
 }
 
 .headshot, .team-logo {
