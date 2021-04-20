@@ -4,8 +4,8 @@ import uvicorn
 from scripts.preprocess import merge_process, get_seasons, split_data
 from scripts.model import NorrisModel
 from scripts.gather_data import get_current_data, get_nhl_players
-from typing import Optional
 import datetime
+import asyncio
 
 app = FastAPI()
 data_src = '../past_data'
@@ -68,27 +68,45 @@ def compile_output(results: dict) -> dict:
     return results
 
 
+@app.on_event('startup')
+async def app_startup():
+
+    # Repeating async task to refresh data/model after midnight each day
+    async def update_data():
+        while True:
+            dt = datetime.datetime.now()
+            current_hr, current_min = dt.hour, dt.minute
+            seconds_until_midnight = (1440 - (current_hr * 60 + current_min)) * 60
+
+            print(f"Waiting {seconds_until_midnight} seconds until midnight to update data.")
+            await asyncio.sleep(seconds_until_midnight)
+
+            print("Time to update data now.")
+            process_data()
+
+    asyncio.create_task(update_data())
+
+
 @app.get('/')
 async def hello():
-    return {"message": "Welcome to the home of Norris Trophy predictions!"}
+    return {"message": f"Welcome to the home of NHL award predictions!"}
 
 
-@app.get('/update')
-async def process_data():
+def process_data() -> None:
     global model
     global current_data
     global nhl_data
     global last_updated
 
+    print("Updating data...")
+
     model, current_data, nhl_data, last_updated = setup()
 
-    return {"message": "Data processed."}
+    print("Data and model updated/refreshed.")
 
 
 @app.get('/predict')
-async def get_predictions(refresh: Optional[bool] = False):
-    if refresh:
-        await process_data()
+async def get_predictions() -> dict:
 
     top_ten = model.predict(current_data)
     results = {i + 1: top_ten[i] for i in range(10)}
