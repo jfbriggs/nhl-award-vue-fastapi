@@ -1,2 +1,2 @@
-# Norris Trophy Prediction Application
+# NHL Award Prediction Tracker
 ### Using Vue.js and FastAPI
