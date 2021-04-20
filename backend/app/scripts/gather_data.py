@@ -56,8 +56,8 @@ def get_current_data(year: str) -> None:
     standings_df = get_standings_data(year)
     skater_df = get_skater_data(year)
 
-    standings_df.to_csv('../past_data/season_standings_current.csv', index_label=False)
-    skater_df.to_csv('../past_data/skater_stats_current.csv', index_label=False)
+    standings_df.to_csv('../data/season_standings_current.csv', index_label=False)
+    skater_df.to_csv('../data/skater_stats_current.csv', index_label=False)
 
     print("Current season's data updated.")
 

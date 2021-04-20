@@ -5,7 +5,7 @@ import unittest
 
 class PreprocessTest(unittest.TestCase):
     def setUp(self):
-        self.past_data_src = "../past_data"
+        self.past_data_src = "../data"
         self.dfs = preprocess.read_to_dfs(self.past_data_src)
 
     def test_read_to_dfs(self):

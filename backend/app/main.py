@@ -8,7 +8,7 @@ import datetime
 import asyncio
 
 app = FastAPI()
-data_src = '../past_data'
+data_src = '../data'
 
 origins = ["http://localhost:8080", "http://localhost"]
 
