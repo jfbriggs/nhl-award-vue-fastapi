@@ -106,10 +106,10 @@ def process_data() -> None:
 
 
 @app.get('/predict')
-async def get_predictions() -> dict:
+async def get_predictions(players: int = 10) -> dict:  # players = number of players to provide in results
 
-    top_ten = model.predict(current_data)
-    results = {i + 1: top_ten[i] for i in range(10)}
+    top_results = model.predict(current_data, players)
+    results = {i + 1: top_results[i] for i in range(len(top_results))}
 
     results = compile_output(results)
 

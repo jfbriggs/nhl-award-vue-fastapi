@@ -23,20 +23,23 @@ class NorrisModel:
         columns = X_train.columns
         self.feature_importances = pd.Series(importance_values, index=columns).sort_values(ascending=False).to_dict()
 
-    def predict(self, data: pd.DataFrame) -> List[dict]:
+    def predict(self, data: pd.DataFrame, n: int) -> List[dict]:
         # ensure data does not have target variable or name/season columns included
         data_filtered = data.drop(["norris_point_pct", "name", "team", "season"], axis=1)
 
         predictions = self.estimator.predict(data_filtered)
 
+        # rescale prediction values: scale based on difference between sum of values and 1
+        predictions = predictions * (1 / np.sum(predictions))
+
         result = data[["name", "team"]].copy()
 
         # add prediction values as column, and display sorted descending
         result["predicted_point_pct"] = np.round(predictions * 100, 2)
-        top_ten = result[["name", "team", "predicted_point_pct"]].sort_values(by="predicted_point_pct",
-                                                                              ascending=False).head(10)
+        top_results = result[["name", "team", "predicted_point_pct"]].sort_values(by="predicted_point_pct",
+                                                                                  ascending=False).head(n)
 
         # convert top 10 results to a list of dicts
-        top_ten_list = top_ten.to_dict("records")
+        top_results_list = top_results.to_dict("records")
 
-        return top_ten_list
+        return top_results_list
