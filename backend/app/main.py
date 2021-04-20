@@ -5,13 +5,10 @@ from scripts.preprocess import merge_process, get_seasons, split_data
 from scripts.model import NorrisModel
 from scripts.gather_data import get_current_data, get_nhl_players
 from typing import Optional
-import pickle
-
-import pandas as pd
+import datetime
 
 app = FastAPI()
 data_src = '../past_data'
-
 
 origins = ["http://localhost:8080", "http://localhost"]
 
@@ -38,10 +35,15 @@ def setup():
     estimator = NorrisModel()
     estimator.fit(train_data)
 
+    print("Updating date/time for data/model refresh...")
+    current_dt = datetime.datetime.now()
+    current_dt = current_dt.strftime("%a, %b %w0 %I:%M%p PT")
+
     print("Model fit.  Ready for prediction requests.")
-    return estimator, curr_data, roster_data
+    return estimator, curr_data, roster_data, current_dt
 
 
+# Takes prediction results dict, adds player headshot URL, player NHL.com page URL, team logo URL
 def compile_output(results: dict) -> dict:
     print("Compiling output: prediction results + player information...")
 
@@ -76,8 +78,9 @@ async def process_data():
     global model
     global current_data
     global nhl_data
+    global last_updated
 
-    model, current_data, nhl_data = setup()
+    model, current_data, nhl_data, last_updated = setup()
 
     return {"message": "Data processed."}
 
@@ -92,10 +95,10 @@ async def get_predictions(refresh: Optional[bool] = False):
 
     results = compile_output(results)
 
-    return {"results": results}
+    return {"results": results, "updated": last_updated}
 
 
-model, current_data, nhl_data = setup()
+model, current_data, nhl_data, last_updated = setup()
 
 if __name__ == "__main__":
     uvicorn.run(app, port=8500)
