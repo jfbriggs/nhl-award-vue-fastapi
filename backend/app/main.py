@@ -1,3 +1,4 @@
+import pytz
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -78,8 +79,11 @@ async def app_startup():
     # Repeating async task to refresh data/model after midnight each day
     async def update_data():
         while True:
-            dt = datetime.datetime.now()
-            current_hr, current_min = dt.hour, dt.minute
+            d_naive = datetime.datetime.now()
+            timezone = pytz.timezone("America/Los_Angeles")
+            d_aware = timezone.localize(d_naive)
+
+            current_hr, current_min = d_aware.hour, d_aware.minute
             seconds_until_midnight = (1440 - (current_hr * 60 + current_min)) * 60
 
             print(f"Waiting {seconds_until_midnight} seconds until midnight to update data.")
