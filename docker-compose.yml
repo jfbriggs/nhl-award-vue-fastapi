@@ -11,5 +11,7 @@ services:
   backend:
     build: backend
     container_name: norris-backend
+    environment:
+      - TZ=US/Pacific
     ports:
       - 8500:80

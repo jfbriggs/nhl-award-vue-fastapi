@@ -1,4 +1,3 @@
-import pytz
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -41,10 +40,8 @@ def setup():
     estimator.fit(train_data)
 
     print("Updating date/time for data/model refresh...")
-    d_naive = datetime.datetime.now()
-    timezone = pytz.timezone("America/Los_Angeles")
-    d_aware = timezone.localize(d_naive)
-    current_dt = d_aware.strftime("%a, %b %w0 %I:%M%p PT")
+    current_dt = datetime.datetime.now()
+    current_dt = current_dt.strftime("%a, %b %w0 %I:%M%p PT")
 
     print("Model fit.  Ready for prediction requests.")
     return estimator, curr_data, roster_data, current_dt
@@ -81,11 +78,8 @@ async def app_startup():
     # Repeating async task to refresh data/model after midnight each day
     async def update_data():
         while True:
-            d_naive = datetime.datetime.now()
-            timezone = pytz.timezone("America/Los_Angeles")
-            d_aware = timezone.localize(d_naive)
-
-            current_hr, current_min = d_aware.hour, d_aware.minute
+            dt = datetime.datetime.now()
+            current_hr, current_min = dt.hour, dt.minute
             seconds_until_midnight = (1440 - (current_hr * 60 + current_min)) * 60
 
             print(f"Waiting {seconds_until_midnight} seconds until midnight to update data.")
