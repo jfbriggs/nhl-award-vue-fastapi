@@ -3,6 +3,15 @@
     <div class="card shadow-1-strong card-list-header">
       <div class="card-header">
         <h4 class="pt-2">{{awardName}}</h4>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-mdb-toggle="modal"
+          data-mdb-target="#awardModal"
+        >
+          Info
+        </button>
+        <AwardModal :awardName="awardName"/>
       </div>
       <div class="card-footer">
         <div class="col updated"><small>Data & Model Last Updated: {{dataUpdated}}</small></div>
@@ -18,8 +27,13 @@
 </template>
 
 <script>
+import AwardModal from '@/components/AwardModal'
+
 export default {
   name: 'AwardHeaderCard',
+  components: {
+    AwardModal
+  },
   props: {
     awardName: String,
     dataUpdated: String,
