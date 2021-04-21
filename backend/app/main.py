@@ -41,8 +41,10 @@ def setup():
     estimator.fit(train_data)
 
     print("Updating date/time for data/model refresh...")
-    current_dt = datetime.datetime.now()
-    current_dt = current_dt.strftime("%a, %b %w0 %I:%M%p PT")
+    d_naive = datetime.datetime.now()
+    timezone = pytz.timezone("America/Los_Angeles")
+    d_aware = timezone.localize(d_naive)
+    current_dt = d_aware.strftime("%a, %b %w0 %I:%M%p PT")
 
     print("Model fit.  Ready for prediction requests.")
     return estimator, curr_data, roster_data, current_dt
