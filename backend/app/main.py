@@ -6,11 +6,15 @@ from scripts.model import NorrisModel
 from scripts.gather_data import get_current_data, get_nhl_players
 import datetime
 import asyncio
+import socket
 
 app = FastAPI()
 data_src = '../data'
 
-origins = ["http://localhost:8080", "http://localhost"]
+hostname = socket.gethostname()
+ip_addr = socket.gethostbyname(hostname)
+
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
