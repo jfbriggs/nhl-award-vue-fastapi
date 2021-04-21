@@ -49,8 +49,6 @@ def setup():
 
 # Takes prediction results dict, adds player headshot URL, player NHL.com page URL, team logo URL
 def compile_output(results: dict) -> dict:
-    print("Compiling output: prediction results + player information...")
-
     # Iterate through prediction results dict and add team logo URL, headshot URL
     for rank in results:
         team_abbrev = results[rank]["team"]
@@ -110,14 +108,14 @@ def process_data() -> None:
 
 
 @app.get('/predict')
-async def get_predictions(players: int = 10) -> dict:  # players = number of players to provide in results
+async def get_predictions() -> dict:  # players = number of players to provide in results
 
-    top_results = model.predict(current_data, players)
+    top_results = model.predict(current_data)
     results = {i + 1: top_results[i] for i in range(len(top_results))}
 
     results = compile_output(results)
 
-    return {"results": results, "updated": last_updated}
+    return {"results": results, "updated": last_updated, "importances": model.feature_importances}
 
 
 model, current_data, nhl_data, last_updated = setup()
