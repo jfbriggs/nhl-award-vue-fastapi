@@ -54,6 +54,6 @@ export default {
 
 .modal-footer{
   padding: 0;
-  opacity: 60%;
+  color: #b1b1b1;
 }
 </style>
