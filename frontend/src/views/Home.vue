@@ -29,7 +29,7 @@ export default {
   methods: {
     async getPredictions() {
       console.log("Gathering data...")
-      const res = await fetch('http://localhost:8500/predict')
+      const res = await fetch('http://' + window.location.host + ':8500/predict')
       const data = await res.json()
       const results = await data.results
       const updated = await data.updated
