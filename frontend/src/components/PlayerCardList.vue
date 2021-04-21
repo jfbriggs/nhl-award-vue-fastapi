@@ -1,6 +1,8 @@
 <template>
-    <div class="container" :key="player.rank" v-for="player in data">
-        <PlayerCard :playerData="player" />
+    <div>
+        <div class="container" :key="player.rank" v-for="player in data">
+            <PlayerCard :playerData="player" />
+        </div>
     </div>
 </template>
 

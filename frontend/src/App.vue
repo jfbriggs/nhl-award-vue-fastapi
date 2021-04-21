@@ -39,6 +39,11 @@ body {
   background-color: #f7f7f7;
 }
 
+.navbar-brand {
+  font-family: 'Titillium Web', 'Roboto', sans-serif;
+  font-weight: bold;
+}
+
 a {
   color: #9c9c9c
 }

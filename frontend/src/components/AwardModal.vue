@@ -7,10 +7,10 @@
     aria-labelledby="awardModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="awardModalLabel">Award Information</h5>
+          <h5 class="modal-title" id="awardModalLabel">Award/Model Information</h5>
           <button
             type="button"
             class="btn-close"
@@ -18,7 +18,9 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">Hello there!</div>
+        <div class="modal-body">
+          <ImportanceTableCard :featureImportances="featureImportances" />
+        </div>
         <div class="modal-footer justify-content-center">
           <div>
             <span><small>{{awardName}}</small></span>
@@ -30,14 +32,28 @@
 </template>
 
 <script>
+import ImportanceTableCard from '@/components/ImportanceTableCard'
+
 export default {
   name: 'AwardModal',
+  components: {
+    ImportanceTableCard
+  },
   props: {
-    awardName: String
+    awardName: String,
+    featureImportances: Array
   }
 }
 </script>
 
 <style scoped>
 
+.modal-header {
+  padding-left: 2em;
+}
+
+.modal-footer{
+  padding: 0;
+  opacity: 60%;
+}
 </style>

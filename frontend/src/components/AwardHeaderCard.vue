@@ -3,15 +3,17 @@
     <div class="card shadow-1-strong card-list-header">
       <div class="card-header">
         <h4 class="pt-2">{{awardName}}</h4>
+      </div>
+      <div class="card-body" id="top-header-body">
         <button
           type="button"
-          class="btn btn-secondary"
+          class="btn btn-sm btn-light"
           data-mdb-toggle="modal"
           data-mdb-target="#awardModal"
         >
-          Info
+          Award/Model Info
         </button>
-        <AwardModal :awardName="awardName"/>
+        <AwardModal :awardName="awardName" :featureImportances="featureImportances" />
       </div>
       <div class="card-footer">
         <div class="col updated"><small>Data & Model Last Updated: {{dataUpdated}}</small></div>
@@ -20,7 +22,7 @@
 
     <div class="card shadow-1-strong card-list-header" v-show="!loading">
       <div class="card-body">
-        <div class="col"><strong>Top 10: If the season were to end today...</strong></div>
+        <div class="col"><strong>If the season were to end today...</strong></div>
       </div>
     </div>
   </div>
@@ -37,7 +39,8 @@ export default {
   props: {
     awardName: String,
     dataUpdated: String,
-    loading: Boolean
+    loading: Boolean,
+    featureImportances: Array
   }
 }
 </script>
@@ -53,4 +56,9 @@ export default {
   color: rgb(105, 105, 105);
   font-style: italic;
 }
+
+#top-header-body {
+  padding: 0.6em;
+}
+
 </style>
