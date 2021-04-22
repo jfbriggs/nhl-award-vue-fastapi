@@ -20,6 +20,7 @@
         </div>
         <div class="modal-body">
           <ImportanceTableCard :featureImportances="featureImportances" />
+          <PastWinnersCard :pastWinners="pastWinners" />
         </div>
         <div class="modal-footer justify-content-center">
           <div>
@@ -33,15 +34,18 @@
 
 <script>
 import ImportanceTableCard from '@/components/ImportanceTableCard'
+import PastWinnersCard from '@/components/PastWinnersCard'
 
 export default {
   name: 'AwardModal',
   components: {
-    ImportanceTableCard
+    ImportanceTableCard,
+    PastWinnersCard
   },
   props: {
     awardName: String,
-    featureImportances: Array
+    featureImportances: Object,
+    pastWinners: Array
   }
 }
 </script>

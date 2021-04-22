@@ -33,7 +33,6 @@ export default {
 
 <style scoped>
 .card {
-    width: 98%;
     margin: 8px auto;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AwardHeaderCard awardName="James Norris Memorial Trophy" :dataUpdated="dataUpdated" :loading="loading" :featureImportances="featureImportances" />
+    <AwardHeaderCard awardName="James Norris Memorial Trophy" :dataUpdated="dataUpdated" :loading="loading" :featureImportances="featureImportances" :pastWinners="pastWinners"/>
     <LoadingCard v-show="loading" />
     <PlayerCardList :data="predictionResults" />
   </div>
@@ -23,6 +23,7 @@ export default {
     return {
       predictionResults: [],
       featureImportances: {},
+      pastWinners: [],
       loading: true,
       dataUpdated: ""
     }
@@ -35,6 +36,7 @@ export default {
       const results = await data.results
       const updated = await data.updated
       const featureImportances = await data.importances
+      const pastWinners = await data.past_winners
 
       let playerList = []
 
@@ -54,6 +56,7 @@ export default {
       this.loading = false
       this.dataUpdated = updated
       this.featureImportances = featureImportances
+      this.pastWinners = pastWinners
       return playerList
 
     }

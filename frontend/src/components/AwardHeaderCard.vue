@@ -13,7 +13,7 @@
         >
           Award/Model Info
         </button>
-        <AwardModal :awardName="awardName" :featureImportances="featureImportances" />
+        <AwardModal :awardName="awardName" :featureImportances="featureImportances" :pastWinners="pastWinners" />
       </div>
       <div class="card-footer">
         <div class="col updated"><small>Data & Model Last Updated: {{dataUpdated}}</small></div>
@@ -40,7 +40,8 @@ export default {
     awardName: String,
     dataUpdated: String,
     loading: Boolean,
-    featureImportances: Array
+    featureImportances: Object,
+    pastWinners: Array
   }
 }
 </script>

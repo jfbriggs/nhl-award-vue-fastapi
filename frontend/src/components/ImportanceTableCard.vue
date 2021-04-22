@@ -1,12 +1,12 @@
 <template>
   <div class="container-fluid">
     <div class="card shadow-1-strong">
-      <div class="card-header" data-toggle="tooltip" data-placement="bottom" :title="importanceTooltip">
+      <div class="card-header">
         <h6 class="pt-2">Model Feature Importance Values: Top 10</h6>
         <div><small>(Sorted, Descending)</small></div>
       </div>
       <div class="card-body">
-        <table class="table">
+        <table class="table table-sm">
           <thead>
             <tr>
               <th scope="col">Variable/Feature Name</th>
@@ -21,6 +21,9 @@
           </tbody>
         </table>
       </div>
+      <div class="card-footer">
+        <small>Feature importance values indicate how much predictive value/impact each feature/variable had in model training.</small>
+      </div>
     </div>
   </div>
 </template>
@@ -29,18 +32,25 @@
 export default {
   name: 'ImportanceTableCard',
   props: {
-    featureImportances: Array
-  },
-  data() {
-    return {
-      importanceTooltip: "Feature importance values indicate how much predictive value each feature/variable had in model fitting."
-    }
+    featureImportances: Object
   }
 }
 </script>
 
 <style scoped>
+.card-header {
+  padding: .5rem 1rem .7rem 1rem;
+}
+
 h6 {
   margin-bottom: 0;
+}
+
+.card-footer {
+  color: rgb(167, 167, 167);
+}
+
+.card-footer:hover {
+  color: black;
 }
 </style>
