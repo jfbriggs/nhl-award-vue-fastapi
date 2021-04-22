@@ -3,16 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from scripts.preprocess import merge_process, get_seasons, split_data
 from scripts.model import NorrisModel
-from scripts.gather_data import get_current_data, get_nhl_players
+from scripts.gather_data import get_current_data, get_nhl_players, get_past_winners
 import datetime
 import asyncio
-import socket
+from typing import Optional
 
 app = FastAPI()
 data_src = '../data'
-
-hostname = socket.gethostname()
-ip_addr = socket.gethostbyname(hostname)
 
 origins = ["*"]
 
@@ -111,14 +108,16 @@ def process_data() -> None:
 
 
 @app.get('/predict')
-async def get_predictions() -> dict:  # players = number of players to provide in results
+async def get_predictions(award: Optional[str] = 'norris') -> dict:  # players = number of players to provide in results
 
     top_results = model.predict(current_data)
     results = {i + 1: top_results[i] for i in range(len(top_results))}
 
     results = compile_output(results)
 
-    return {"results": results, "updated": last_updated, "importances": model.feature_importances}
+    past_winners = get_past_winners(award)
+
+    return {"results": results, "updated": last_updated, "importances": model.feature_importances, "past_winners": past_winners}
 
 
 model, current_data, nhl_data, last_updated = setup()

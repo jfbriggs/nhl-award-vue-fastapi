@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import os
 
 
 def get_standings_data(year: str) -> pd.DataFrame:
@@ -63,7 +62,7 @@ def get_current_data(year: str) -> None:
 
 
 # Get player IDs, team abbrevs, and jersey numbers from NHL Stats API
-def get_nhl_players():
+def get_nhl_players() -> dict:
     teams_players = requests.get("https://statsapi.web.nhl.com/api/v1/teams?expand=team.roster").json()["teams"]
     # players = {}
 
@@ -84,3 +83,17 @@ def get_nhl_players():
         teams[team["abbreviation"]] = roster
 
     return teams
+
+
+def get_past_winners(name: str) -> list:
+    winners_html = requests.get("https://www.hockey-reference.com/awards/norris.html").text
+    winners_soup = BeautifulSoup(winners_html, 'html.parser')
+    winners_rows = winners_soup.select(f'#{name}')[0].find_all('tbody')[0].find_all('tr')
+
+    winners = []
+
+    for row in winners_rows:
+        data = list(map(lambda x: x.text, row.find_all(['th', 'td'], {'data-stat': ['season', 'player', 'team_id']})))
+        winners.append(data)
+
+    return winners
