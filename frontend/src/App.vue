@@ -1,17 +1,30 @@
 <template>
   <div>
     <!-- Nav bar -->
-    <nav class="navbar navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div class="container-fluid">
         <router-link to="/" class="navbar-brand px-2">NHL Award Prediction Tracker</router-link>
-        <ul class="nav justify-content-center">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link active" href="#">HOME</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/about" class="nav-link" href="#">ABOUT</router-link>
-          </li>
-        </ul>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarTogglerDemo02"
+          aria-controls="navbarTogglerDemo02"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end px-2" id="navbarTogglerDemo02">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <router-link to="/" class="nav-link" href="#">HOME</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/about" class="nav-link" href="#">ABOUT</router-link>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
 
