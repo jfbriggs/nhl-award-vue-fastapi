@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container" :key="player.rank" v-for="player in data">
+        <div class="container" id="player-list" :key="player.rank" v-for="player in data">
             <PlayerCard :playerData="player" />
         </div>
     </div>
@@ -21,5 +21,7 @@ export default {
 </script>
 
 <style scoped>
-
+#player-list {
+    max-width: 900px;
+}
 </style>

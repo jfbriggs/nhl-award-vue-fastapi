@@ -2,7 +2,7 @@
   <div class="container">
       <div class="card shadow-1-strong">
         <div class="card-body text-center">
-          <div class="spinner-border" role="status">
+          <div class="spinner-border spinner-border-sm" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
@@ -17,8 +17,10 @@ export default {
 </script>
 
 <style scoped>
+
 .card {
-margin-bottom: 10px
+  margin: 0 auto 10px auto;
+  width: 50%;
 }
 
 </style>
