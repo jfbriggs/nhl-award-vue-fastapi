@@ -20,7 +20,7 @@ export default {
 
 .card {
   margin: 0 auto 10px auto;
-  width: 50%;
+  max-width: 650px;
 }
 
 </style>

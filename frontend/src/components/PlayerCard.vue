@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="col px-2">Current Predicted Vote Point Percentage: {{playerData.pointPct}}%</div>
+            <div class="col px-2" data-toggle="tooltip" data-placement="right" title="VPP = Vote Point Percentage">Current Predicted VPP: {{playerData.pointPct}}%</div>
         </div>
     </div>
 </template>

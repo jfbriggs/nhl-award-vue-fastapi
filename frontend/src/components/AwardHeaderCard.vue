@@ -48,7 +48,7 @@ export default {
 
 <style scoped>
 .card-list-header {
-  width: 50%;
+  max-width: 650px;
   margin: 0 auto 10px auto;
   text-align: center;
 }
