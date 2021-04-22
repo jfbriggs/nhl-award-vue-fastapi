@@ -67,6 +67,9 @@ def compile_output(results: dict) -> dict:
                 name_dashed = team_roster[player_id]["name"].lower().replace(" ", "-")
                 results[rank]["nhl_page"] = f"https://www.nhl.com/player/{name_dashed}-{player_id}"
 
+                # add full team name to output
+                results[rank]["team_full"] = team_roster[player_id]["team_full"]
+
     return results
 
 
