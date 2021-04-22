@@ -12,7 +12,7 @@
                     <h5 class="card-title">{{playerData.name}}</h5>
                 </div>
                 <div class="flex-shrink-0">
-                    <img class="mr-3 team-logo" :src="playerData.teamLogo" alt="Team Logo">
+                    <img class="mr-3 team-logo" :src="playerData.teamLogo" alt="Team Logo" data-toggle="tooltip" data-placement="right" :title="playerData.teamFullName">
                 </div>
             </div>
         </div>

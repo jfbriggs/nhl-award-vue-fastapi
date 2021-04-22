@@ -43,6 +43,7 @@ export default {
           rank: rank,
           name: results[rank].name,
           team: results[rank].team,
+          teamFullName: results[rank].team_full,
           pointPct: results[rank].predicted_point_pct,
           teamLogo: results[rank].team_logo_url,
           headshot: results[rank].headshot_url,

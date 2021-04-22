@@ -22,7 +22,7 @@
 
     <div class="card shadow-1-strong card-list-header" v-show="!loading">
       <div class="card-body">
-        <div class="col"><strong>If the season were to end today...</strong></div>
+        <div class="col"><strong>Current Predictions</strong></div>
       </div>
     </div>
   </div>
