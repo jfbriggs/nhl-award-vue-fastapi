@@ -41,7 +41,7 @@ def setup():
 
     print("Updating date/time for data/model refresh...")
     current_dt = datetime.datetime.now()
-    current_dt = current_dt.strftime("%a, %b %w0 %I:%M%p PT")
+    current_dt = current_dt.strftime("%a, %b %d %I:%M%p PT")
 
     print("Model fit.  Ready for prediction requests.")
     return estimator, curr_data, roster_data, current_dt
