@@ -71,14 +71,17 @@ def get_nhl_players() -> dict:
     for team in teams_players:
         roster = {}
 
-        for player in team["roster"]["roster"]:
-            if player["position"]["code"] == "D":
-                roster[player["person"]["id"]] = {
-                    "name": player["person"]["fullName"],
-                    "team_dashed": '-'.join(team["name"].lower().replace("é", "e").split()),
-                    "team_full": team["name"],
-                    "jersey_number": player.get("jerseyNumber")
-                }
+        try:
+            for player in team["roster"]["roster"]:
+                if player["position"]["code"] == "D":
+                    roster[player["person"]["id"]] = {
+                        "name": player["person"]["fullName"],
+                        "team_dashed": '-'.join(team["name"].lower().replace("é", "e").split()),
+                        "team_full": team["name"],
+                        "jersey_number": player.get("jerseyNumber")
+                    }
+        except KeyError:  # account for possible KeyError when team["roster"] doesn't exit (Seattle - new franchise, no roster)
+            pass
 
         teams[team["abbreviation"]] = roster
 

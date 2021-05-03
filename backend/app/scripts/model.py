@@ -24,7 +24,6 @@ class NorrisModel:
         self.feature_importances = pd.Series(importance_values, index=columns).sort_values(ascending=False).head(
             10).to_dict()
         self.feature_importances = self.feature_importances.items()
-        print(self.feature_importances)
 
     def predict(self, data: pd.DataFrame) -> List[dict]:
         # ensure data does not have target variable or name/season columns included
