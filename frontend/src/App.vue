@@ -43,6 +43,10 @@ export default {
   },
   created() {
     document.title = 'NHL Award Prediction Tracker'
+    console.log("Hi there!  Thanks for visiting.  Looks like you might be checking out my work on this app.  I'm currently looking for a job opportunity in data science, ML engineering, or SWE; so feel free to get in touch if you've got something in mind!")
+    console.log("If you're interested in the repo for all of this app's code (including the underlying data preprocessing and ML), you can find it here: https://github.com/jfbriggs/nhl-award-vue-fastapi")
+    console.log("The original Jupyter notebook ML project that this app is based on can also be found here: https://nbviewer.jupyter.org/github/jfbriggs/nhl_norris_voting/blob/master/NorrisTrophyVoting.ipynb")
+    console.log("If you'd like to get in touch with me, my e-mail address is available in the 'About' view.")
   }
 }
 </script>
