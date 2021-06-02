@@ -76,7 +76,7 @@ def get_nhl_players() -> dict:
                 if player["position"]["code"] == "D":
                     roster[player["person"]["id"]] = {
                         "name": player["person"]["fullName"],
-                        "team_dashed": '-'.join(team["name"].lower().replace("é", "e").split()),
+                        "team_dashed": '-'.join(team["name"].lower().replace("é", "e").replace('.', '').split()),
                         "team_full": team["name"],
                         "jersey_number": player.get("jerseyNumber")
                     }
